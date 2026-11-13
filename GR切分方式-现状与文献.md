@@ -109,7 +109,7 @@ SSD 三级。相比 CPU 基线 5–62× 加速。
 稠密侧不必切（小），所以前者模型并行、后者数据并行。
 
 **这对我们很重要**：它说明「稠密侧用 DP」不是随手的选择，而是
-「稠密层小 ⇒ 切了没好处，还有通信」。而这正对应我们上一轮的 Amdahl 结论：
+「稠密层小 ⇒ 切了没好处，还有通信」。这与 Amdahl 分析（见 `冗余段处理-文献与GR方案.md`）一致：
 `P` 小的时候切分无用。
 
 ---
@@ -143,7 +143,7 @@ Sequential Transducers**（RecSys '25，[ACM](https://dl.acm.org/doi/full/10.114
 数字：AllToAll 替代 AllGather 后**峰值显存降 >60%、吞吐升 >2×**；
 负载均衡再提 37%。
 
-### 4.3 与我上一轮 Amdahl 结论的对照 —— 这是最有价值的一段
+### 4.3 与 Amdahl 分析的对照 —— 这是最有价值的一段
 
 论文的 Table 2（scaling factor，理想 2.00×）：
 
@@ -154,7 +154,7 @@ Sequential Transducers**（RecSys '25，[ACM](https://dl.acm.org/doi/full/10.114
 | **DDP + CP（cp_size=2）** | **1.33×** |
 | **DDP + CP + batch 翻倍** | **1.55×** |
 
-这三行验证了我上一轮的判断，而且比我的仿真更硬：
+这三行比仿真更硬，且与 Amdahl 分析的方向一致：
 
 1. **单独加 CP 会降 scaling factor**（1.6–1.7 → 1.33，−22%）——
    与我的 `throughput_ratio > 1`（CP 的整机吞吐不如 DP）方向一致。
